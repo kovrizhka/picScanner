@@ -4,7 +4,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 
 public class GrayMatPane extends HBox {
-    private Text grayMat;
+    private Text grayMatImage;
 
 
     public GrayMatPane() {
@@ -23,8 +23,8 @@ public class GrayMatPane extends HBox {
 
         private Text /*ImageView*/ buildGrayMatView() {
         // todo
-        grayMat = new Text("Серая матрица");
-        return grayMat;
+        grayMatImage = new Text("Серая матрица");
+        return grayMatImage;
     }
 
 }

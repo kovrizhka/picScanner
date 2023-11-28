@@ -30,14 +30,15 @@ public class MainPane extends VBox {
         mainPane.setSpacing(20);
 //        mainPane.getChildren().add(buildImageView());
 
-        HBox hBox = new HBox(buildOriginalImageView());
-        hBox.setSpacing(10);
+//        HBox hBox = new HBox(buildOriginalImageView());
+//        hBox.setSpacing(10);
         HBox hBox1 = new HBox(buildThresholdMat(), buildDrawContoursMat());
         hBox1.setSpacing(10);
         HBox sliderHbox = new HBox(buildSliders());
         sliderHbox.setSpacing(10);
 
-        mainPane.getChildren().add(hBox);
+        mainPane.getChildren().add(new OriginalImagePane());
+//        mainPane.getChildren().add(hBox);
         mainPane.getChildren().add(hBox1);
         mainPane.getChildren().add(sliderHbox);
         mainPane.getChildren().add(new GrayMatPane());
@@ -51,21 +52,21 @@ public class MainPane extends VBox {
         return new Text("Место для создания слайдеров и других переменных");
     }
 
-    private  ImageView buildOriginalImageView() {
-        File file = new File("AnalysisImage.png");
-        Image image;
-        try {
-            image = new Image(file.toString());
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            throw new RuntimeException(e);
-        }
-
-        ImageView imageView = new ImageView(image);
-        imageView.setFitWidth(400);
-        imageView.setPreserveRatio(true);
-        return imageView;
-    }
+//    private  ImageView buildOriginalImageView() {
+//        File file = new File("AnalysisImage.png");
+//        Image image;
+//        try {
+//            image = new Image(file.toString());
+//        } catch (Exception e) {
+//            System.out.println(e.getMessage());
+//            throw new RuntimeException(e);
+//        }
+//
+//        ImageView imageView = new ImageView(image);
+//        imageView.setFitWidth(400);
+//        imageView.setPreserveRatio(true);
+//        return imageView;
+//    }
 
 //    private Text /*ImageView*/ buildGrayMatView() {
 //        // todo
