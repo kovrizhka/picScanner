@@ -1,18 +1,19 @@
 package com.example.axalittest;
 
-import javafx.scene.layout.HBox;
+import javafx.scene.image.Image;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
-public class GrayMatPane extends HBox {
+public class GrayMatImagePane extends VBox {
     private Text grayMatImage;
 
 
-    public GrayMatPane() {
+    public GrayMatImagePane() {
         super();
-        buildGrayMatPane(this);
+        buildGrayMatImagePane(this);
     }
 
-    public void buildGrayMatPane(GrayMatPane grayMatPane) {
+    public void buildGrayMatImagePane(GrayMatImagePane grayMatPane) {
 
         grayMatPane.setPrefHeight(600);
         grayMatPane.setSpacing(20);
@@ -20,11 +21,15 @@ public class GrayMatPane extends HBox {
 
     }
 
-
         private Text /*ImageView*/ buildGrayMatView() {
         // todo
         grayMatImage = new Text("Серая матрица");
         return grayMatImage;
+    }
+
+    private void updateGrayMatView(Image image) {
+        // todo
+        grayMatImage.setText("NewGrayMat");
     }
 
 }
