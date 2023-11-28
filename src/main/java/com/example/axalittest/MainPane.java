@@ -11,7 +11,7 @@ import java.io.File;
 
 public class MainPane extends VBox {
 
-    private Text grayMat;
+//    private GrayMatPane grayMat;
     private Text thresholdMat;
     private Text drawContoursMat;
 
@@ -24,15 +24,13 @@ public class MainPane extends VBox {
 
 
 
-
-
 //        VBox mainWindowAnchorPane = new VBox();
         mainPane.setFillWidth(true);
         mainPane.setPrefHeight(600);
-        mainPane.setSpacing(10);
+        mainPane.setSpacing(20);
 //        mainPane.getChildren().add(buildImageView());
 
-        HBox hBox = new HBox(buildOriginalImageView(), buildGrayMatView());
+        HBox hBox = new HBox(buildOriginalImageView());
         hBox.setSpacing(10);
         HBox hBox1 = new HBox(buildThresholdMat(), buildDrawContoursMat());
         hBox1.setSpacing(10);
@@ -42,6 +40,7 @@ public class MainPane extends VBox {
         mainPane.getChildren().add(hBox);
         mainPane.getChildren().add(hBox1);
         mainPane.getChildren().add(sliderHbox);
+        mainPane.getChildren().add(new GrayMatPane());
 
     }
 
@@ -68,11 +67,11 @@ public class MainPane extends VBox {
         return imageView;
     }
 
-    private Text /*ImageView*/ buildGrayMatView() {
-        // todo
-        grayMat = new Text("Серая матрица");
-        return grayMat;
-    }
+//    private Text /*ImageView*/ buildGrayMatView() {
+//        // todo
+//        grayMat = new Text("Серая матрица");
+//        return grayMat;
+//    }
 
     private Text /*ImageView*/ buildThresholdMat() {
         // todo
@@ -86,10 +85,10 @@ public class MainPane extends VBox {
         return drawContoursMat;
     }
 
-    private void updateGrayMatView(Image image) {
-        // todo
-        grayMat.setText("NewGrayMat");
-    }
+//    private void updateGrayMatView(Image image) {
+//        // todo
+//        grayMat.setText("NewGrayMat");
+//    }
 
     private void updateThresholdMat(Image image) {
         // todo
