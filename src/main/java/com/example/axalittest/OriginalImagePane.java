@@ -4,11 +4,14 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import org.bytedeco.opencv.opencv_core.Mat;
 
 import java.io.File;
 
 public class OriginalImagePane extends VBox {
     public static Image originalImage;
+
+    public static Mat originalImageMat;
 
 
     public OriginalImagePane() {
@@ -22,7 +25,6 @@ public class OriginalImagePane extends VBox {
         originalImagePane.setSpacing(20);
         originalImagePane.getChildren().add(new Text("Оригинальное изображение"));
         originalImagePane.getChildren().add(buildOriginalImageView());
-
     }
 
     private ImageView buildOriginalImageView() {
@@ -35,7 +37,9 @@ public class OriginalImagePane extends VBox {
     public void updateOriginalImage() {
         File file = new File("AnalysisImage.png");
         try {
-            this.originalImage = new Image(file.toString());
+            originalImage = new Image(file.toString());
+            originalImageMat = Utils.getMatFromPath("AnalysisImage.png");
+            System.out.println(originalImageMat);
         } catch (Exception e) {
             System.out.println(e.getMessage());
             throw new RuntimeException(e);

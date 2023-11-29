@@ -17,6 +17,13 @@ public class Utils {
     // Не забудьте сделать matFromPath.release(); чтоб очистить память, сама она не чистится
     public static Mat getMatFromPath(String path) {
         Mat matFromPath = imread(path);
+
+        if (matFromPath.empty()) {
+            System.out.println("Failed to load the image");
+        } else {
+            System.out.println("Image loaded successfully");
+        }
+
         return matFromPath;
     }
 
@@ -28,8 +35,8 @@ public class Utils {
         return mat;
     }
 
-    public static byte[] getByteArrayFromMat(Mat mat) {
-        byte[] destination = new byte[mat.size().height() * mat.size().width() * 3];
+    public static byte[] getByteArrayFromMat(Mat mat, int channels) {
+        byte[] destination = new byte[mat.size().height() * mat.size().width() * channels];
         mat.data().get(destination);
         return destination;
     }
@@ -69,7 +76,7 @@ public class Utils {
     public static Mat grayMat(Mat srcMat) {
 
         // Создаем новую матрицу для хранения оттенков серого
-        Mat grayMat = new Mat(srcMat.size(), CvType.CV_8UC1);
+        Mat grayMat = new Mat();
 
         // Преобразование цветового пространства из BGR в оттенки серого
         cvtColor(srcMat, grayMat, COLOR_BGR2GRAY);

@@ -8,9 +8,13 @@ import org.bytedeco.opencv.opencv_core.Mat;
 import javafx.scene.control.Button;
 
 
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 public class GrayMatImagePane extends VBox {
+
+    private Text grayMatText = new Text("Серая матрица");
+    private Mat grayMat;
 
     private ImageView grayMatView;
 
@@ -23,7 +27,7 @@ public class GrayMatImagePane extends VBox {
         Button updateButton = new Button("Получить/обновить изображение");
         updateButton.setOnAction(event -> {
             try {
-                updateGrayMatView(OriginalImagePane.originalImage);
+                updateGrayMatView(OriginalImagePane.originalImageMat);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -31,7 +35,6 @@ public class GrayMatImagePane extends VBox {
 
         setPrefHeight(600);
         setSpacing(20);
-        getChildren().add(new Text("Серое изображение"));
 
         // Используем один ImageView для представления серого изображения
         grayMatView = new ImageView();
@@ -40,25 +43,36 @@ public class GrayMatImagePane extends VBox {
         getChildren().add(updateButton);
     }
 
-    private void updateGrayMatView(Image image) throws IOException {
-        byte[] imageBytes = ImageConverter.getImageBytes(image);
+    private void updateGrayMatView(Mat srcMat) throws IOException {
 
         try {
-            Mat originalMat = Utils.getMatFromByteArray(imageBytes, (int) image.getWidth(), (int) image.getHeight());
 
             // Преобразование в серую матрицу
-            Mat grayMat = Utils.grayMat(originalMat);
+            Mat newGrayMat = Utils.grayMat(srcMat);
 
-            // Конвертация серой матрицы в объект Image
-            Image grayMatImage = Utils.toFXImage(Utils.convertByteArrayToBufferedImage(
-                    Utils.getByteArrayFromMat(grayMat), grayMat.channels(), grayMat.cols(), grayMat.rows()));
+            ////// Конвертация серой матрицы в объект Image
+
+            // сначала byte[] из матрицы
+            byte[] matToByteArr = Utils.getByteArrayFromMat(newGrayMat, newGrayMat.channels());
+
+            // затем конвертируем в BufferedImage
+            BufferedImage bufferedImage = Utils.convertByteArrayToBufferedImage(matToByteArr,
+                    newGrayMat.channels(),
+                    newGrayMat.cols(),
+                    newGrayMat.rows());
+
+            // и создаем изображение
+            Image grayMatImage = Utils.toFXImage(bufferedImage);
+
+            grayMat = newGrayMat;
 
             // Обновление ImageView на пэйне
             grayMatView.setImage(grayMatImage);
 
             // Освобождение ресурсов
-            originalMat.release();
+            newGrayMat.release();
             grayMat.release();
+            buildGrayMatImagePane();
         } catch (Exception e) {
             e.printStackTrace();
         }
