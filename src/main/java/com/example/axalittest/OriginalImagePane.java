@@ -8,7 +8,8 @@ import javafx.scene.text.Text;
 import java.io.File;
 
 public class OriginalImagePane extends VBox {
-    private Image originalImage;
+    public static Image originalImage;
+
 
     public OriginalImagePane() {
         super();

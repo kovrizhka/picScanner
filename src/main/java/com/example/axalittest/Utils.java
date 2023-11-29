@@ -10,8 +10,7 @@ import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
 
 import static org.bytedeco.opencv.global.opencv_imgcodecs.imread;
-import static org.bytedeco.opencv.global.opencv_imgproc.COLOR_RGB2BGR;
-import static org.bytedeco.opencv.global.opencv_imgproc.cvtColor;
+import static org.bytedeco.opencv.global.opencv_imgproc.*;
 
 public class Utils {
 
@@ -67,8 +66,14 @@ public class Utils {
      * @param srcMat - 3-х канальная матрица
      * @return возвращает бинарную матрицу
      */
-    public static void /*Mat*/ grayMat(Mat srcMat) {
-        // todo написать реализацию метода
+    public static Mat grayMat(Mat srcMat) {
+
+        // Создаем новую матрицу для хранения оттенков серого
+        Mat grayMat = new Mat(srcMat.size(), CvType.CV_8UC1);
+
+        // Преобразование цветового пространства из BGR в оттенки серого
+        cvtColor(srcMat, grayMat, COLOR_BGR2GRAY);
+        return grayMat;
     }
 
     /**

@@ -30,8 +30,6 @@ public class MainPane extends VBox {
         mainPane.getChildren().add(new ThresholdMatImagePane());
         mainPane.getChildren().add(new DrawContoursMatImagePane());
         mainPane.getChildren().add(sliderHbox);
-
-
     }
 
     private Node buildSliders() {
