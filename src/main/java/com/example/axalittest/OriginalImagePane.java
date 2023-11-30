@@ -38,7 +38,7 @@ public class OriginalImagePane extends VBox {
         File file = new File("AnalysisImage.png");
         try {
             originalImage = new Image(file.toString());
-            originalImageMat = Utils.getMatFromPath("AnalysisImage.png");
+            originalImageMat = Utils.getMatFromPath("src/main/resources/AnalysisImage.png");
             System.out.println(originalImageMat);
         } catch (Exception e) {
             System.out.println(e.getMessage());

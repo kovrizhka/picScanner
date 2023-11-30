@@ -22,7 +22,7 @@ public class HelloApplication extends Application {
 //        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
 
 
-        Scene scene = new Scene(new MainPane(), 800, 640);
+        Scene scene = new Scene(new MainPane());
         stage.setTitle("AxalitTest");
         stage.setScene(scene);
         stage.show();

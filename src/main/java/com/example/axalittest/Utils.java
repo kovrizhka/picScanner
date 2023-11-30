@@ -19,7 +19,7 @@ public class Utils {
         Mat matFromPath = imread(path);
 
         if (matFromPath.empty()) {
-            System.out.println("Failed to load the image");
+            System.out.println("!!!!! Failed to load image in the following path:" + "\n" + path);
         } else {
             System.out.println("Image loaded successfully");
         }
