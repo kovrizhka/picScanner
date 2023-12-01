@@ -72,10 +72,14 @@ public class GrayMatImagePane extends VBox {
             // Обновление ImageView на пэйне
             grayMatView.setImage(grayMatImage);
 
-            // Освобождение ресурсов
-            grayMat.release();
+//            // Освобождение ресурсов
+//            grayMat.release();
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public static Mat getGrayMat() {
+        return grayMat;
     }
 }

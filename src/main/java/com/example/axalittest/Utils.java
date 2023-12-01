@@ -117,7 +117,9 @@ public class Utils {
      * Метод отрисовывает контуры на оригинальной матрицу
      * @param srcMat
      */
-    public static void drawContoursOnMat(Mat srcMat, MatVector contours, int contourIdx, Scalar color) {
-        drawContours(srcMat, contours, contourIdx, color);
+    public static Mat drawContoursOnMat(Mat srcMat, MatVector contours, int contourIdx, Scalar color) {
+        Mat counteredSrcMat = new Mat(srcMat);
+        drawContours(counteredSrcMat, contours, contourIdx, color);
+        return counteredSrcMat;
     }
 }
