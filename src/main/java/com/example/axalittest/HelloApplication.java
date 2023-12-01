@@ -23,6 +23,7 @@ public class HelloApplication extends Application {
 
 
         Scene scene = new Scene(new MainPane());
+
         stage.setTitle("AxalitTest");
         stage.setScene(scene);
         stage.show();

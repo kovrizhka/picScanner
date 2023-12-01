@@ -1,9 +1,12 @@
 package com.example.axalittest;
 
 import javafx.scene.Node;
+import javafx.scene.control.Button;
+import javafx.scene.control.Slider;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.text.Text;
+import javafx.scene.layout.VBox;
 
 public class MainPane extends HBox {
 
@@ -14,20 +17,12 @@ public class MainPane extends HBox {
 
     public void buildMainPane(MainPane mainPane) {
 
-
-        OriginalImagePane originalImagePane = new OriginalImagePane();
-        GrayMatImagePane grayMatImagePane = new GrayMatImagePane();
-        ThresholdMatImagePane thresholdMatImagePane = new ThresholdMatImagePane();
-        DrawContoursMatImagePane drawContoursMatImagePane = new DrawContoursMatImagePane();
-
-
-        mainPane.getChildren().add(originalImagePane);
-        mainPane.getChildren().add(grayMatImagePane);
-        mainPane.getChildren().add(thresholdMatImagePane);
-        mainPane.getChildren().add(drawContoursMatImagePane);
-//        mainPane.getChildren().add(buildSliders());
-
-
+        // создаем дочерние панели
+        mainPane.getChildren().add(new OriginalImagePane());
+        mainPane.getChildren().add(new GrayMatImagePane());
+        mainPane.getChildren().add(new ThresholdMatImagePane());
+        mainPane.getChildren().add(new DrawContoursMatImagePane());
+        mainPane.getChildren().add(buildSliders());
 
         // отрисовка границ
         for(Node pane: mainPane.getChildren()) {
@@ -36,10 +31,17 @@ public class MainPane extends HBox {
     }
 
     private Node buildSliders() {
-//        Slider slider = new Slider();
-//        Button button = new Button();
-//        TextField textField = new TextField();
-        return new Text("Место для создания слайдеров и других переменных");
+        TextField textField = new TextField("Панель управления");
+        Slider slider = new Slider();
+        Button button = new Button("Увеличить четкость контура");
+
+        VBox controlPanel = new VBox();
+
+        controlPanel.getChildren().add(textField);
+        controlPanel.getChildren().add(slider);
+        controlPanel.getChildren().add(button);
+
+        return controlPanel;
     }
 
     private void setBorderForPane(Pane pane) {

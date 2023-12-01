@@ -11,8 +11,6 @@ import org.opencv.imgproc.Imgproc;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-import static org.opencv.imgproc.Imgproc.THRESH_TRUNC;
-
 public class ThresholdMatImagePane extends VBox {
 
     private final Text thresholdMatText = new Text("Пороговая матрица");
