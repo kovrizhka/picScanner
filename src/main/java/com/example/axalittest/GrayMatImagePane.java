@@ -13,66 +13,67 @@ import java.io.IOException;
 
 public class GrayMatImagePane extends VBox {
 
-    private Text grayMatText = new Text("Серая матрица");
-    private Mat grayMat;
-
+    private final Text grayMatText = new Text("Серая матрица");
+    private Image grayMatImage;
+    private static Mat grayMat;
     private ImageView grayMatView;
 
     public GrayMatImagePane() {
         super();
-        buildGrayMatImagePane();
+        buildGrayMatImagePane(this);
     }
 
-    private void buildGrayMatImagePane() {
+    private void buildGrayMatImagePane(GrayMatImagePane grayMatImagePane) {
         Button updateButton = new Button("Получить/обновить изображение");
         updateButton.setOnAction(event -> {
             try {
-                updateGrayMatView(OriginalImagePane.originalImageMat);
+                updateGrayMatView(OriginalImagePane.getOriginalImageMat());
             } catch (IOException e) {
                 e.printStackTrace();
             }
         });
 
-        setPrefHeight(600);
-        setSpacing(20);
+        grayMatImagePane.setPrefHeight(600);
+        grayMatImagePane.setSpacing(20);
 
-        // Используем один ImageView для представления серого изображения
-        grayMatView = new ImageView();
-        getChildren().add(grayMatView);
-
-        getChildren().add(updateButton);
+        grayMatImagePane.getChildren().add(updateButton);
+        grayMatImagePane.getChildren().add(grayMatText);
+        grayMatImagePane.getChildren().add(buildGrayMatView());
     }
+
+    private ImageView buildGrayMatView() {
+        grayMatView = new ImageView(grayMatImage);
+        grayMatView.setFitWidth(400);
+        grayMatView.setPreserveRatio(true);
+        return grayMatView;
+    }
+
 
     private void updateGrayMatView(Mat srcMat) throws IOException {
 
         try {
-
             // Преобразование в серую матрицу
-            Mat newGrayMat = Utils.grayMat(srcMat);
-
-            ////// Конвертация серой матрицы в объект Image
+            grayMat = Utils.grayMat(srcMat);
 
             // сначала byte[] из матрицы
-            byte[] matToByteArr = Utils.getByteArrayFromMat(newGrayMat, newGrayMat.channels());
+            byte[] matToByteArr = Utils.getByteArrayFromMat(grayMat, grayMat.channels());
 
             // затем конвертируем в BufferedImage
-            BufferedImage bufferedImage = Utils.convertByteArrayToBufferedImage(matToByteArr,
-                    newGrayMat.channels(),
-                    newGrayMat.cols(),
-                    newGrayMat.rows());
+            BufferedImage bufferedImage = Utils.convertByteArrayToBufferedImage(
+                    matToByteArr,
+                    grayMat.channels(),
+                    grayMat.cols(),
+                    grayMat.rows()
+            );
 
             // и создаем изображение
-            Image grayMatImage = Utils.toFXImage(bufferedImage);
-
-            grayMat = newGrayMat;
+            grayMatImage = Utils.toFXImage(bufferedImage);
 
             // Обновление ImageView на пэйне
             grayMatView.setImage(grayMatImage);
 
             // Освобождение ресурсов
-            newGrayMat.release();
             grayMat.release();
-            buildGrayMatImagePane();
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -9,9 +9,10 @@ import org.bytedeco.opencv.opencv_core.Mat;
 import java.io.File;
 
 public class OriginalImagePane extends VBox {
-    public static Image originalImage;
 
-    public static Mat originalImageMat;
+    private final Text originalImageText = new Text("Оригинальное изображение");
+    private static Image originalImage;
+    private static Mat originalImageMat;
 
 
     public OriginalImagePane() {
@@ -23,7 +24,7 @@ public class OriginalImagePane extends VBox {
     public void buildOriginalImagePane(OriginalImagePane originalImagePane) {
         originalImagePane.setPrefHeight(600);
         originalImagePane.setSpacing(20);
-        originalImagePane.getChildren().add(new Text("Оригинальное изображение"));
+        originalImagePane.getChildren().add(originalImageText);
         originalImagePane.getChildren().add(buildOriginalImageView());
     }
 
@@ -44,5 +45,9 @@ public class OriginalImagePane extends VBox {
             System.out.println(e.getMessage());
             throw new RuntimeException(e);
         }
+    }
+
+    public static Mat getOriginalImageMat() {
+        return originalImageMat;
     }
 }

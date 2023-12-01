@@ -3,6 +3,8 @@ package com.example.axalittest;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
 import org.bytedeco.opencv.opencv_core.Mat;
+import org.bytedeco.opencv.opencv_core.MatVector;
+import org.bytedeco.opencv.opencv_core.Scalar;
 import org.bytedeco.opencv.opencv_core.Size;
 import org.opencv.core.CvType;
 
@@ -89,24 +91,33 @@ public class Utils {
      * @return возвращает бинарную матрицу, которая отобрана по какому-то выбранному порогу
      * возможно переделать чтоб на выход и вход были не бинарные матрицы
      */
-    public static void /*Mat*/ thresholdMat(Mat srcMat /*добавить нужные параметры*/) {
-        // todo написать реализацию метода
+    public static Mat thresholdMat(Mat srcMat, double thresholdValue, double maxValue, int thresholdType) {
+        Mat thresholdMat = new Mat();
+
+        // Применяем пороговую обработку к входной матрице
+        threshold(srcMat, thresholdMat, thresholdValue, maxValue, thresholdType);
+
+        return thresholdMat;
     }
 
     /**
      * @param srcMat
-     * @return todo нужно переделать возвращаемое значение, вернуть контуры, которые будет удобно потом отрисовать
+     * @return MatVector
      */
-    public static void findContoursOnMat(Mat srcMat/*добавить нужные параметры*/) {
-        // todo написать реализацию метода
+    public static MatVector findContoursOnMat(Mat srcMat) {
+
+        MatVector srcMatContours = new MatVector();
+
+        findContours(srcMat, srcMatContours, RETR_EXTERNAL, CHAIN_APPROX_SIMPLE);
+
+        return srcMatContours;
     }
 
     /**
      * Метод отрисовывает контуры на оригинальной матрицу
      * @param srcMat
      */
-    public static void drawContoursOnMat(Mat srcMat /*, smth contours*//*,добавить нужные параметры*/) {
-        // todo написать реализацию метода
+    public static void drawContoursOnMat(Mat srcMat, MatVector contours, int contourIdx, Scalar color) {
+        drawContours(srcMat, contours, contourIdx, color);
     }
-
 }

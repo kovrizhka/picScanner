@@ -1,11 +1,11 @@
 package com.example.axalittest;
 
 import javafx.scene.Node;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 
-public class MainPane extends Pane{
+public class MainPane extends HBox {
 
     public MainPane() {
         super();
@@ -14,42 +14,25 @@ public class MainPane extends Pane{
 
     public void buildMainPane(MainPane mainPane) {
 
-        setPanelSize(mainPane, 1280, 1024);
 
         OriginalImagePane originalImagePane = new OriginalImagePane();
         GrayMatImagePane grayMatImagePane = new GrayMatImagePane();
-        DrawContoursMatImagePane drawContoursMatImagePane = new DrawContoursMatImagePane();
         ThresholdMatImagePane thresholdMatImagePane = new ThresholdMatImagePane();
+        DrawContoursMatImagePane drawContoursMatImagePane = new DrawContoursMatImagePane();
 
-        setPanelSize(originalImagePane, 500, 500);
-        setPanelSize(grayMatImagePane, 500, 500);
-        setPanelSize(drawContoursMatImagePane, 500, 500);
-        setPanelSize(thresholdMatImagePane, 500, 500);
 
-        StackPane.setAlignment(grayMatImagePane, javafx.geometry.Pos.CENTER);
-
-        mainPane.getChildren().addAll(
-                originalImagePane,
-                grayMatImagePane,
-                drawContoursMatImagePane,
-                thresholdMatImagePane
-        );
+        mainPane.getChildren().add(originalImagePane);
+        mainPane.getChildren().add(grayMatImagePane);
+        mainPane.getChildren().add(thresholdMatImagePane);
+        mainPane.getChildren().add(drawContoursMatImagePane);
+//        mainPane.getChildren().add(buildSliders());
 
 
 
-//        VBox mainWindowAnchorPane = new VBox();
-//        mainPane.setFillWidth(true);
-//        mainPane.setPrefHeight(600);
-//        mainPane.setSpacing(20);
-//
-//        HBox sliderHbox = new HBox(buildSliders());
-//        sliderHbox.setSpacing(10);
-//
-//        mainPane.getChildren().add(new OriginalImagePane());
-//        mainPane.getChildren().add(new GrayMatImagePane());
-//        mainPane.getChildren().add(new ThresholdMatImagePane());
-//        mainPane.getChildren().add(new DrawContoursMatImagePane());
-//        mainPane.getChildren().add(sliderHbox);
+        // отрисовка границ
+        for(Node pane: mainPane.getChildren()) {
+            setBorderForPane((Pane) pane);
+        }
     }
 
     private Node buildSliders() {
@@ -59,10 +42,8 @@ public class MainPane extends Pane{
         return new Text("Место для создания слайдеров и других переменных");
     }
 
-    private static void setPanelSize(Pane panel, double width, double height) {
-        panel.setMinSize(width, height);
-        panel.setMaxSize(width, height);
-        panel.setPrefSize(width, height);
+    private void setBorderForPane(Pane pane) {
+        pane.setStyle("-fx-border-color: black; -fx-border-width: 1;");
     }
 
 }
