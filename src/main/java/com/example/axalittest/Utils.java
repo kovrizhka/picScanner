@@ -93,10 +93,7 @@ public class Utils {
      */
     public static Mat thresholdMat(Mat srcMat, double thresholdValue, double maxValue, int thresholdType) {
         Mat thresholdMat = new Mat();
-
-        // Применяем пороговую обработку к входной матрице
         threshold(srcMat, thresholdMat, thresholdValue, maxValue, thresholdType);
-
         return thresholdMat;
     }
 
@@ -105,11 +102,8 @@ public class Utils {
      * @return MatVector
      */
     public static MatVector findContoursOnMat(Mat srcMat) {
-
         MatVector srcMatContours = new MatVector();
-
         findContours(srcMat, srcMatContours, RETR_EXTERNAL, CHAIN_APPROX_SIMPLE);
-
         return srcMatContours;
     }
 

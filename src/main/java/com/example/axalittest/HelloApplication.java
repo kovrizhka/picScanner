@@ -19,8 +19,6 @@ public class HelloApplication extends Application {
         stage.initStyle(StageStyle.DECORATED);
         stage.setWidth(1280);
         stage.setHeight(1024);
-//        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
-
 
         Scene scene = new Scene(new MainPane());
 

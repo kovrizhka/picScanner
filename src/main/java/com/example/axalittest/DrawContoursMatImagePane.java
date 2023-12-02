@@ -80,4 +80,9 @@ public class DrawContoursMatImagePane extends VBox {
             e.printStackTrace();
         }
     }
+
+    public void drawContoursUpdate() throws IOException {
+        updateDrawContoursMatView(ThresholdMatImagePane.getThresholdMat(), GrayMatImagePane.getGrayMat());
+    }
+
 }

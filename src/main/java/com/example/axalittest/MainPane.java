@@ -2,13 +2,19 @@ package com.example.axalittest;
 
 import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.control.Slider;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 
-public class MainPane extends HBox {
+import java.io.IOException;
+
+
+public class MainPane extends GridPane {
+
+    OriginalImagePane originalImagePane;
+    GrayMatImagePane grayMatImagePane;
+    ThresholdMatImagePane thresholdMatImagePane;
+    DrawContoursMatImagePane drawContoursMatImagePane;
 
     public MainPane() {
         super();
@@ -17,12 +23,19 @@ public class MainPane extends HBox {
 
     public void buildMainPane(MainPane mainPane) {
 
+        originalImagePane = new OriginalImagePane();
+        grayMatImagePane = new GrayMatImagePane();
+        thresholdMatImagePane = new ThresholdMatImagePane();
+        drawContoursMatImagePane = new DrawContoursMatImagePane();
+
+
         // создаем дочерние панели
-        mainPane.getChildren().add(new OriginalImagePane());
-        mainPane.getChildren().add(new GrayMatImagePane());
-        mainPane.getChildren().add(new ThresholdMatImagePane());
-        mainPane.getChildren().add(new DrawContoursMatImagePane());
-        mainPane.getChildren().add(buildSliders());
+        mainPane.add(originalImagePane, 0, 0);
+        mainPane.add(grayMatImagePane, 1, 0);
+        mainPane.add(thresholdMatImagePane, 0, 1);
+        mainPane.add(drawContoursMatImagePane, 1, 1);
+        mainPane.add(buildSliders(), 2, 0);
+
 
         // отрисовка границ
         for(Node pane: mainPane.getChildren()) {
@@ -31,15 +44,40 @@ public class MainPane extends HBox {
     }
 
     private Node buildSliders() {
-        TextField textField = new TextField("Панель управления");
-        Slider slider = new Slider();
-        Button button = new Button("Увеличить четкость контура");
+        // кнопки и слайдер
+        Text textField = new Text("Панель управления");
 
-        VBox controlPanel = new VBox();
+        Button refreshButton = new Button("Получить/обновить результаты анализа");
+        refreshButton.setOnAction(event -> {
+            try {
+                for(int i = 0; i < 5; i++) {
+                    grayMatImagePane.grayMatUpdate();
+                    thresholdMatImagePane.thresholdUpdate();
+                    drawContoursMatImagePane.drawContoursUpdate();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
 
-        controlPanel.getChildren().add(textField);
-        controlPanel.getChildren().add(slider);
-        controlPanel.getChildren().add(button);
+        Button qualityButton = new Button("Увеличить четкость контура");
+        qualityButton.setOnAction(event -> {
+            try {
+                for(int i = 0; i < 3; i++) {
+                    thresholdMatImagePane.thresholdUpdate();
+                    drawContoursMatImagePane.drawContoursUpdate();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+
+        // панель для кнопок и слайдера
+        GridPane controlPanel = new GridPane();
+        controlPanel.add(textField, 0, 0);
+        controlPanel.add(refreshButton, 0, 1);
+        controlPanel.add(qualityButton, 0, 2);
+
 
         return controlPanel;
     }
