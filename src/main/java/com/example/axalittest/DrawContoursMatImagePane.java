@@ -8,6 +8,7 @@ import javafx.scene.text.Text;
 import org.bytedeco.opencv.opencv_core.Mat;
 import org.bytedeco.opencv.opencv_core.MatVector;
 import org.bytedeco.opencv.opencv_core.Scalar;
+import org.bytedeco.opencv.opencv_ximgproc.ContourFitting;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -26,7 +27,7 @@ public class DrawContoursMatImagePane extends VBox {
         Button updateButton = new Button("Получить/обновить изображение");
         updateButton.setOnAction(event -> {
             try {
-                updateDrawContoursMatView(ThresholdMatImagePane.getThresholdMat(), GrayMatImagePane.getGrayMat());
+                updateDrawContoursMatView(ThresholdMatImagePane.getThresholdMat(), OriginalImagePane.getOriginalImageMat());
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -48,13 +49,13 @@ public class DrawContoursMatImagePane extends VBox {
     }
 
 
-    private void updateDrawContoursMatView(Mat thresholdMat, Mat grayMat) throws IOException {
+    private void updateDrawContoursMatView(Mat thresholdMat, Mat originalMat) throws IOException {
 
         try {
             // находим контуры на thresholdMat
             MatVector thresholdMatContours = Utils.findContoursOnMat(thresholdMat);
 
-            Mat drawContoursMat = Utils.drawContoursOnMat(grayMat, thresholdMatContours, -1, Scalar.BLUE);
+            Mat drawContoursMat = Utils.drawContoursOnMat(originalMat, thresholdMatContours, -1, Scalar.BLUE);
 
             // сначала byte[] из матрицы
             byte[] matToByteArr = Utils.getByteArrayFromMat(drawContoursMat, drawContoursMat.channels());

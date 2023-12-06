@@ -103,7 +103,7 @@ public class Utils {
      */
     public static MatVector findContoursOnMat(Mat srcMat) {
         MatVector srcMatContours = new MatVector();
-        findContours(srcMat, srcMatContours, RETR_EXTERNAL, CHAIN_APPROX_SIMPLE);
+        findContours(srcMat, srcMatContours, RETR_TREE, CHAIN_APPROX_NONE);
         return srcMatContours;
     }
 
