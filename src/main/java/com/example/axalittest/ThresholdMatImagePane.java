@@ -50,7 +50,8 @@ public class ThresholdMatImagePane extends VBox {
 
 
     private void updateThresholdMatView(Mat grayMat) throws IOException {
-
+        // Imgproc.ADAPTIVE_THRESH_GAUSSIAN_C - для ЧБ
+        // 8 - для цветных
         try {
             thresholdMat = Utils.thresholdMat(grayMat, 40, 255, Imgproc.ADAPTIVE_THRESH_GAUSSIAN_C);
 

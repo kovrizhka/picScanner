@@ -55,7 +55,7 @@ public class DrawContoursMatImagePane extends VBox {
             // находим контуры на thresholdMat
             MatVector thresholdMatContours = Utils.findContoursOnMat(thresholdMat);
 
-            Mat drawContoursMat = Utils.drawContoursOnMat(originalMat, thresholdMatContours, -1, Scalar.BLUE);
+            Mat drawContoursMat = Utils.drawContoursOnMat(originalMat, thresholdMatContours, -1, Scalar.RED);
 
             // сначала byte[] из матрицы
             byte[] matToByteArr = Utils.getByteArrayFromMat(drawContoursMat, drawContoursMat.channels());
@@ -83,7 +83,7 @@ public class DrawContoursMatImagePane extends VBox {
     }
 
     public void drawContoursUpdate() throws IOException {
-        updateDrawContoursMatView(ThresholdMatImagePane.getThresholdMat(), GrayMatImagePane.getGrayMat());
+        updateDrawContoursMatView(ThresholdMatImagePane.getThresholdMat(), OriginalImagePane.getOriginalImageMat());
     }
 
 }

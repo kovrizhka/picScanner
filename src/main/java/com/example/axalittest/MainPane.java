@@ -47,7 +47,7 @@ public class MainPane extends GridPane {
         // кнопки и слайдер
         Text textField = new Text("Панель управления");
 
-        Button refreshButton = new Button("Получить/обновить результаты анализа");
+        Button refreshButton = new Button("Получить/обновить изображение с отрисованными контурами");
         refreshButton.setOnAction(event -> {
             try {
                 for(int i = 0; i < 5; i++) {
@@ -55,28 +55,17 @@ public class MainPane extends GridPane {
                     thresholdMatImagePane.thresholdUpdate();
                     drawContoursMatImagePane.drawContoursUpdate();
                 }
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
         });
 
-        Button qualityButton = new Button("Увеличить четкость контура");
-        qualityButton.setOnAction(event -> {
-            try {
-                for(int i = 0; i < 3; i++) {
-                    thresholdMatImagePane.thresholdUpdate();
-                    drawContoursMatImagePane.drawContoursUpdate();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
 
         // панель для кнопок и слайдера
         GridPane controlPanel = new GridPane();
         controlPanel.add(textField, 0, 0);
         controlPanel.add(refreshButton, 0, 1);
-        controlPanel.add(qualityButton, 0, 2);
 
 
         return controlPanel;
