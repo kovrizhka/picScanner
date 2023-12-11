@@ -50,8 +50,8 @@ public class MainPane extends GridPane {
         Button refreshButton = new Button("Получить изображение с отрисованными контурами");
         refreshButton.setOnAction(event -> {
             try {
-                grayMatImagePane.grayMatUpdate();
-                for(int i = 0; i < 5; i++) {
+                for(int i = 0; i < 3; i++) {
+                    grayMatImagePane.grayMatUpdate();
                     thresholdMatImagePane.thresholdUpdate();
                     drawContoursMatImagePane.drawContoursUpdate();
                 }

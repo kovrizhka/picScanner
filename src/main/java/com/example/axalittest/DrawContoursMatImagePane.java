@@ -1,15 +1,18 @@
 package com.example.axalittest;
 
+import javafx.geometry.Bounds;
 import javafx.scene.control.Button;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.scene.transform.Scale;
 import org.bytedeco.opencv.opencv_core.Mat;
 import org.bytedeco.opencv.opencv_core.MatVector;
 import org.bytedeco.opencv.opencv_core.Scalar;
-import org.bytedeco.opencv.opencv_ximgproc.ContourFitting;
-
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
@@ -36,16 +39,32 @@ public class DrawContoursMatImagePane extends VBox {
         drawContoursMatImagePane.setPrefHeight(600);
         drawContoursMatImagePane.setSpacing(20);
 
+        ScrollPane scrollPane = new ScrollPane();
+        scrollPane.setContent(buildDrawContoursMatView());
+
         drawContoursMatImagePane.getChildren().add(updateButton);
         drawContoursMatImagePane.getChildren().add(drawContoursMatText);
         drawContoursMatImagePane.getChildren().add(buildDrawContoursMatView());
     }
 
-    private ImageView buildDrawContoursMatView() {
+    private ScrollPane buildDrawContoursMatView() {
+        StackPane stackPane = new StackPane();
         drawContoursMatView = new ImageView(drawContoursMatImage);
-        drawContoursMatView.setFitWidth(400);
-        drawContoursMatView.setPreserveRatio(true);
-        return drawContoursMatView;
+        stackPane.getChildren().add(drawContoursMatView);
+
+        // Создание ScrollPane и установка StackPane внутри него
+        ScrollPane scrollPane = new ScrollPane();
+        scrollPane.setContent(stackPane);
+        scrollPane.setPannable(true);
+
+        // Масштабирование изображения в ScrollPane
+        drawContoursMatView.preserveRatioProperty().set(true);
+        drawContoursMatView.fitWidthProperty().bind(scrollPane.widthProperty());
+
+        // Добавление масштабирования с помощью ScrollPane
+        addZoomFunctionality(stackPane, scrollPane);
+
+        return scrollPane;
     }
 
 
@@ -71,7 +90,7 @@ public class DrawContoursMatImagePane extends VBox {
             // и создаем изображение
             drawContoursMatImage = Utils.toFXImage(bufferedImage);
 
-            // Обновление ImageView на пэйне
+            // Обновление ImageView в ScrollPane
             drawContoursMatView.setImage(drawContoursMatImage);
 
             // Освобождение ресурсов
@@ -84,6 +103,58 @@ public class DrawContoursMatImagePane extends VBox {
 
     public void drawContoursUpdate() throws IOException {
         updateDrawContoursMatView(ThresholdMatImagePane.getThresholdMat(), OriginalImagePane.getOriginalImageMat());
+    }
+
+    private void addZoomFunctionality(Pane content, ScrollPane scrollPane) {
+        final double SCALE_DELTA = 1.1;
+        final Scale scaleTransform = new Scale(1, 1);
+        final StackPane stackPane = (StackPane) content;
+
+        stackPane.getTransforms().add(scaleTransform);
+
+        scrollPane.setOnScroll(scrollEvent -> {
+            scrollEvent.consume();
+
+            double scaleFactor = (scrollEvent.getDeltaY() > 0) ? SCALE_DELTA : 1 / SCALE_DELTA;
+            scaleTransform.setX(scaleTransform.getX() * scaleFactor);
+            scaleTransform.setY(scaleTransform.getY() * scaleFactor);
+
+            // Ограничение масштабирования
+            Bounds viewportBounds = scrollPane.getViewportBounds();
+            double contentWidth = content.getBoundsInParent().getWidth();
+            double contentHeight = content.getBoundsInParent().getHeight();
+
+            double hValue = scrollPane.getHvalue();
+            double vValue = scrollPane.getVvalue();
+
+            scrollPane.layout();
+            content.layout();
+
+            scrollPane.setHvalue(Math.max(0, Math.min(hValue, (contentWidth - viewportBounds.getWidth()) / contentWidth)));
+            scrollPane.setVvalue(Math.max(0, Math.min(vValue, (contentHeight - viewportBounds.getHeight()) / contentHeight)));
+        });
+
+        // Добавление перемещения
+        final Delta dragDelta = new Delta();
+        stackPane.setOnMousePressed(mouseEvent -> {
+            dragDelta.x = mouseEvent.getX();
+            dragDelta.y = mouseEvent.getY();
+        });
+
+        stackPane.setOnMouseDragged(mouseEvent -> {
+            double deltaX = mouseEvent.getX() - dragDelta.x;
+            double deltaY = mouseEvent.getY() - dragDelta.y;
+
+            stackPane.setTranslateX(stackPane.getTranslateX() + deltaX);
+            stackPane.setTranslateY(stackPane.getTranslateY() + deltaY);
+
+            dragDelta.x = mouseEvent.getX();
+            dragDelta.y = mouseEvent.getY();
+        });
+    }
+
+    private static class Delta {
+        double x, y;
     }
 
 }
