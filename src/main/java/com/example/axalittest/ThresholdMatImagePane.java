@@ -84,5 +84,4 @@ public class ThresholdMatImagePane extends VBox {
     public void thresholdUpdate() throws IOException {
         updateThresholdMatView(GrayMatImagePane.getGrayMat());
     }
-
 }

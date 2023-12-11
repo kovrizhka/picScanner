@@ -47,11 +47,11 @@ public class MainPane extends GridPane {
         // кнопки и слайдер
         Text textField = new Text("Панель управления");
 
-        Button refreshButton = new Button("Получить/обновить изображение с отрисованными контурами");
+        Button refreshButton = new Button("Получить изображение с отрисованными контурами");
         refreshButton.setOnAction(event -> {
             try {
+                grayMatImagePane.grayMatUpdate();
                 for(int i = 0; i < 5; i++) {
-                    grayMatImagePane.grayMatUpdate();
                     thresholdMatImagePane.thresholdUpdate();
                     drawContoursMatImagePane.drawContoursUpdate();
                 }
@@ -61,11 +61,18 @@ public class MainPane extends GridPane {
             }
         });
 
+        Button cleanButton = new Button("Очистить");
+        cleanButton.setOnAction(event -> {
+            this.getChildren().clear();
+            buildMainPane(this);
+        });
+
 
         // панель для кнопок и слайдера
         GridPane controlPanel = new GridPane();
         controlPanel.add(textField, 0, 0);
         controlPanel.add(refreshButton, 0, 1);
+        controlPanel.add(cleanButton, 0, 2);
 
 
         return controlPanel;
